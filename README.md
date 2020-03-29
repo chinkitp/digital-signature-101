@@ -55,5 +55,5 @@ If the decrypted hash matches a second computed hash of the same data, it proves
 [Microsoft Cryptographic Signatures](https://docs.microsoft.com/en-us/dotnet/standard/security/cryptographic-signatures)
 
 # Credits
-[miguno/avro-cli-examples](https://github.com/miguno/avro-cli-examples)
-[fearofcode/avro-byte-array-serialization](https://github.com/fearofcode/avro-byte-array-serialization/blob/master/src/main/java/org/wkh/learningavro/UserSerDe.java)
+- [miguno/avro-cli-examples](https://github.com/miguno/avro-cli-examples)
+- [fearofcode/avro-byte-array-serialization](https://github.com/fearofcode/avro-byte-array-serialization/blob/master/src/main/java/org/wkh/learningavro/UserSerDe.java)
