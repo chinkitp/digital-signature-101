@@ -1,8 +1,11 @@
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Avro.Generic;
+using Avro.IO;
 
-namespace stamping
+namespace DigitalSignature101
 {
     public struct Envelope
     {
@@ -21,17 +24,25 @@ namespace stamping
 
         public void Verify()
         {
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            var rsa = new RSACryptoServiceProvider();
             rsa.FromXmlString(publicKey);
-            RSAPKCS1SignatureDeformatter rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
+            var rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
             rsaDeformatter.SetHashAlgorithm(hashAlgorithm);
-            SHA256 mySHA256 = SHA256.Create();
+            var mySHA256 = SHA256.Create();
             //The hash value to sign.
-            byte[] messageBytes = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(message.value));
+            byte[] messageBytes = mySHA256.ComputeHash(message.value);
 
             if(rsaDeformatter.VerifySignature(messageBytes, System.Convert.FromBase64String(signature)))
             {
                 Console.WriteLine("The signature is valid.");
+                //Optionally decode it 
+                var schema = Avro.Schema.Parse(File.ReadAllText("twitter.avsc"));
+                var datumReader = new GenericDatumReader<GenericRecord>(schema, schema);   
+                var ms = new MemoryStream(message.value);
+                var decoder = new BinaryDecoder(ms);
+                GenericRecord rec = datumReader.Read(null, decoder);
+                System.Console.WriteLine(rec);                
+
             }
             else
             {

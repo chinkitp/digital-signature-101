@@ -1,13 +1,11 @@
-namespace stamping
+namespace DigitalSignature101
 {
     public struct Message
     {
-        public Message(string value)
+        public Message(byte[] value)
         {
             this.value = value;
         }
-        public string value;
+        public byte[] value;
     }
-
-
 }
