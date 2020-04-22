@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
 namespace api.Controllers
 {
@@ -34,6 +35,17 @@ namespace api.Controllers
                 MySummary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("/Sign")]
+        public Message Sign()
+        {
+            return new Message
+            {
+                Payload = new byte[] { 0x03, 0x10, 0xFF, 0xFF }, 
+                DataPath = "$.this.again",
+                Metadata =  JObject.Parse("{name: \"John\", age: 31, city: \"New York\"}")
+            };
         }
     }
 }
